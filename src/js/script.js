@@ -23,6 +23,8 @@ const getJoke = () => {
     .then(res => res.json())
     .then(data => {
       jokeList.innerHTML = "";
+      jokeBtn.disabled = true;
+      setTimeout(() => jokeBtn.disabled = false, 1000)
       const setUp = data.setup;
       const punchLine = data.punchline;
       let joke = document.createElement('p');
@@ -31,6 +33,7 @@ const getJoke = () => {
       hideLoadingMsg()
     })
     .catch(err => {
+      hideLoadingMsg();
       let joke = document.createElement('p');
       joke.innerText = `Sorry, ${err}, Please try again`;
       jokeList.append(joke)
