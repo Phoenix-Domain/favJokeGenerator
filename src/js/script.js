@@ -13,12 +13,30 @@ const showLoadingMsg = () => {
   loadingMsg.classList.toggle('shown')
 }
 
+const hideLoadingMsg = () => {
+  loadingMsg.classList.remove('shown')
+}
+
 const getJoke = () => {
   console.log('function runs');
   fetch('https://official-joke-api.appspot.com/random_joke')
     .then(res => res.json())
-    .then(data => console.log(data.punchline))
+    .then(data => {
+      jokeList.innerHTML = "";
+      const setUp = data.setup;
+      const punchLine = data.punchline;
+      let joke = document.createElement('p');
+      joke.innerText = `Setup: ${setUp} \n\n PunchLine: ${punchLine}`;
+      jokeList.append(joke);
+      hideLoadingMsg()
+    })
+    .catch(err => {
+      let joke = document.createElement('p');
+      joke.innerText = `Sorry, ${err}, Please try again`;
+      jokeList.append(joke)
+    })
 }
+
 //show loading message
 //fetch joke from API
 //Display joke setup + punchline
